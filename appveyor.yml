@@ -1,3 +1,7 @@
+branches:
+  only:
+    - master
+
 environment:
   SECUREPSD:
     secure: 6sB3RRUjx/vTjKDEdZP5KA==
@@ -17,6 +21,14 @@ environment:
       PYTHON_ARCH: "32"
 
     - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5.0"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "3.5.0"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.5.0"
       PYTHON_ARCH: "64"
     
@@ -65,9 +77,7 @@ artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
   - path: dist\*
 
-branches:
-  only:
-    - master
+
 
 on_success:  
   #- "twine upload -u pyodps -p %SECUREPSD dist\*"
