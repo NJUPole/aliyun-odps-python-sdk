@@ -75,10 +75,7 @@ artifacts:
 
 
 
-on_success:  
-  on:
-    branch:master
-  #- "twine upload -u pyodps -p %SECUREPSD dist\*"
+on_success:
   - "python setup.py register -r https://testpypi.python.org/pypi"
   - "twine upload -r testpypi dist/*"
  
