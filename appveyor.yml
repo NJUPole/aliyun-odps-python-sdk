@@ -1,7 +1,3 @@
-branches:
-  only:
-    - master
-
 environment:
   SECUREPSD:
     secure: 6sB3RRUjx/vTjKDEdZP5KA==
@@ -80,6 +76,8 @@ artifacts:
 
 
 on_success:  
+  on:
+    branch:master
   #- "twine upload -u pyodps -p %SECUREPSD dist\*"
   - "python setup.py register -r https://testpypi.python.org/pypi"
   - "twine upload -r testpypi dist/*"
