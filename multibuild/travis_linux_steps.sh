@@ -79,7 +79,7 @@ function build_multilinux {
     local build_cmds="$2"
     local docker_image=quay.io/pypa/manylinux1_$plat
     retry docker pull $docker_image
-    cp . /multibuild
+    cp /multibuild .
     docker run --rm \
         -e BUILD_COMMANDS="$build_cmds" \
         -e PYTHON_VERSION="$MB_PYTHON_VERSION" \
