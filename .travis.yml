@@ -6,7 +6,7 @@ env:
   - PLAT=x86_64
   - BUILD_DEP="cython"
   - UNICODE_WIDTH=32
-  - secure: hoJUfS4h8dnt/vctif96zLLIW2D76gaL2wLjqi2QCRFq18W/+7TNz+cfpkGKpYBstQ2McAJ7S5N+zNvWmCSa4QhzDHN5s3SHxd12/yFfJ7xntPFltGJR0DDFEi3N6DKw/Id6NDPIgTr9mhaxtnbwo0C6qSetXTq7N1F8XBQbLBUuzos+EV5/2ZTp8p4QEWXNlZZwLKMR3I26flmHx+YM/LZokcAwjqvl1F02kBuHsXKq8zH8zclz8LqEukGPP5vhmUAbrcNNC2Ht/E9BDJ2wzNSZ1WP8uuI1CPMrwl1GJZ/SYH3oajLwMvOtz3DtTHgt7wC8ZG8r/uZg+lUGxAIEcind9UJc5RtJxKmonPN3bwppDrdhR0W6/0RkmVlAulPL/EWIlSzX6+LjhKXJzk4G2nUApaWFpx05vg85JPGVNpsNnpCaZyMI+EuLk5rUXeRSOmJAYRFd2527acdvUZuIQYT6UG4vs6DHvb4x/8Co4cPO7XFyIpWoPebFuIO7sQZj8tXaXATnC+MlG77TlS0iFUUIum9fVDuPue6W3Y/ZFtNcRAvR/BZJ05dZI7nrp4MMZgo0SV1ldvZUAS446FiGm+EgI5tSKXLvp00Y3J53X8Sz+ZKbw5bJAN8gVejIM7o4GP6AD/EIlTfIL6ESV+B0ax7S6ZoAWKd6dmN7S1+42Z0=
+  - secure: gM0t6qJK7q7OjHTPpaHQQkKVQinMWxdOSOtjhnS9d15QvqqYxDSTJAa0Eu0T8yM9z/MkokD62JPiffVXsfS7YKTk7IAivoJHku5V/JLKYcuAj48YiAFdPFhDweZ2EXOsvc6Zrorzx64/MX6XyjOwL8IGo3Kz4fNPOEDCjzS/+/2pMP9w515Jnk6bW1TOFt7DOMa6M489K+/fJwZBaFYvQmFttQws1MiKTGJ1Yaershw7ZCW3+slZ1Rczj9+X5jgmvRnjIunb5dflPDlxvaWP4esUhezMFCBF3LSW4fXBlpSkMaWp6URv6vNQk0QQRYp2VEzbEGGYEDAt8AlZ8F7xQbiqmARBJrcf9vSVl80VaxNxoz28+3fOxvP/WGDmAYXty6ONgvNRdVp1Ecc4DozL8lTIIZL8BDzKU0NO4VepwgaQZ6oyhhLbrQFIJdT7Jt7V51M6n3j9Kc9Hzvk8n5cZgboKy3EnPE15mvtrs6efOFF4c3xZ2ICUlM88BrYMmFeZ/I7IhDMxiKxVH1CGQ+Jv0ifmdy+MPA5eFxLnY/2HmUm2XLhW2GzysV3ekWZd1BD5oibHU4hl2IlSRgHtuSomNrCJlZMV9M12SsVsliRjUFIMnrzdxgp0DPKOsLp+Wi8wrWpnp+piNOPk+RChJsSggg9QBaKjnfuLybTSrtit2f0=
 language: python
 python: 3.5
 sudo: required
@@ -66,14 +66,15 @@ before_install:
 install:
   - build_wheel $REPO_DIR $PLAT
 script:
-  #- test
+  - echo "$TRAVIS_TAG"
   - ls
-  - pip install twine
-  - echo "[distutils]"                                  > ~/.pypirc
-  - echo "index-servers ="                             >> ~/.pypirc
-  - echo "    testpypi"                                >> ~/.pypirc
-  - echo "[testpypi]"                                  >> ~/.pypirc
-  - echo "repository:https://testpypi.python.org/pypi" >> ~/.pypirc
-  - echo "username:pyodps"                             >> ~/.pypirc
-  - echo password:secure:hoJUfS4h8dnt/vctif96zLLIW2D76gaL2wLjqi2QCRFq18W/+7TNz+cfpkGKpYBstQ2McAJ7S5N+zNvWmCSa4QhzDHN5s3SHxd12/yFfJ7xntPFltGJR0DDFEi3N6DKw/Id6NDPIgTr9mhaxtnbwo0C6qSetXTq7N1F8XBQbLBUuzos+EV5/2ZTp8p4QEWXNlZZwLKMR3I26flmHx+YM/LZokcAwjqvl1F02kBuHsXKq8zH8zclz8LqEukGPP5vhmUAbrcNNC2Ht/E9BDJ2wzNSZ1WP8uuI1CPMrwl1GJZ/SYH3oajLwMvOtz3DtTHgt7wC8ZG8r/uZg+lUGxAIEcind9UJc5RtJxKmonPN3bwppDrdhR0W6/0RkmVlAulPL/EWIlSzX6+LjhKXJzk4G2nUApaWFpx05vg85JPGVNpsNnpCaZyMI+EuLk5rUXeRSOmJAYRFd2527acdvUZuIQYT6UG4vs6DHvb4x/8Co4cPO7XFyIpWoPebFuIO7sQZj8tXaXATnC+MlG77TlS0iFUUIum9fVDuPue6W3Y/ZFtNcRAvR/BZJ05dZI7nrp4MMZgo0SV1ldvZUAS446FiGm+EgI5tSKXLvp00Y3J53X8Sz+ZKbw5bJAN8gVejIM7o4GP6AD/EIlTfIL6ESV+B0ax7S6ZoAWKd6dmN7S1+42Z0=  >> ~/.pypirc
-  - twine upload -r testpypi --skip-existing wheelhouse/*.whl
+deploy:
+  provider: pypi
+  distributions: sdist bdist bdist_wheel
+  server: https://testpypi.python.org/pypi
+  user: pyodps
+  password:
+    secure: gM0t6qJK7q7OjHTPpaHQQkKVQinMWxdOSOtjhnS9d15QvqqYxDSTJAa0Eu0T8yM9z/MkokD62JPiffVXsfS7YKTk7IAivoJHku5V/JLKYcuAj48YiAFdPFhDweZ2EXOsvc6Zrorzx64/MX6XyjOwL8IGo3Kz4fNPOEDCjzS/+/2pMP9w515Jnk6bW1TOFt7DOMa6M489K+/fJwZBaFYvQmFttQws1MiKTGJ1Yaershw7ZCW3+slZ1Rczj9+X5jgmvRnjIunb5dflPDlxvaWP4esUhezMFCBF3LSW4fXBlpSkMaWp6URv6vNQk0QQRYp2VEzbEGGYEDAt8AlZ8F7xQbiqmARBJrcf9vSVl80VaxNxoz28+3fOxvP/WGDmAYXty6ONgvNRdVp1Ecc4DozL8lTIIZL8BDzKU0NO4VepwgaQZ6oyhhLbrQFIJdT7Jt7V51M6n3j9Kc9Hzvk8n5cZgboKy3EnPE15mvtrs6efOFF4c3xZ2ICUlM88BrYMmFeZ/I7IhDMxiKxVH1CGQ+Jv0ifmdy+MPA5eFxLnY/2HmUm2XLhW2GzysV3ekWZd1BD5oibHU4hl2IlSRgHtuSomNrCJlZMV9M12SsVsliRjUFIMnrzdxgp0DPKOsLp+Wi8wrWpnp+piNOPk+RChJsSggg9QBaKjnfuLybTSrtit2f0=
+  skip_cleanup: true
+  on:
+    branch: testPyPI
