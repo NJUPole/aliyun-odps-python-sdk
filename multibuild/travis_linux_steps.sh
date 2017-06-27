@@ -90,6 +90,9 @@ function build_multilinux {
         -e REPO_DIR="$repo_dir" \
         -e PLAT="$PLAT" \
         -v $PWD:/io \
+		$docker_image echo "before script"
+		$docker_image ls
+		$docker_image ls /io
         $docker_image /io/$MULTIBUILD_DIR/docker_build_wrap.sh
 }
 
