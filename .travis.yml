@@ -48,7 +48,7 @@ script:
   - sudo chmod 777 travis/linux-wheel.sh
   - ls
   - docker run --rm -e "PYVER=$PYVER" -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/linux-wheel.sh
-  - ls dist/
+  - ls
   
 after_success:
   - echo "[distutils]"                                  > ~/.pypirc
