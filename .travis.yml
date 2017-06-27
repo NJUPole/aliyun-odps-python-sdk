@@ -64,8 +64,6 @@ before_install:
   - source multibuild/travis_steps.sh
   - before_install
 install:
-  - ls
-  - ls -l /multibuild
   - build_wheel $REPO_DIR $PLAT
 script:
   #- test
