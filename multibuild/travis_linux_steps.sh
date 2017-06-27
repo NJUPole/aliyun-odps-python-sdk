@@ -74,7 +74,6 @@ function build_multilinux {
     #     BUILD_DEPENDS (optional)
     #     MANYLINUX_URL (optional)
     #     WHEEL_SDIR (optional)
-    PWD
     local plat=$1
     [ -z "$plat" ] && echo "plat not defined" && exit 1
     local build_cmds="$2"
@@ -92,7 +91,7 @@ function build_multilinux {
         -e PLAT="$PLAT" \
         -v $PWD:/io \
 		--privileged \
-        $docker_image /io/multibuild/docker_build_wrap.sh
+        $docker_image ./multibuild/docker_build_wrap.sh
 }
 
 function install_run {
