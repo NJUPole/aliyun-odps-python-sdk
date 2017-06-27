@@ -66,6 +66,7 @@ install:
   - clean_code $REPO_DIR
   - build_wheel $REPO_DIR $PLAT
 script:
+  #- test
   - ls
   - pip install twine
   - cd aliyun-odps-python-sdk
