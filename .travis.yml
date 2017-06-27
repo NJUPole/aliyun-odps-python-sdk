@@ -6,7 +6,7 @@ env:
   - PLAT=x86_64
   - BUILD_DEP="cython"
   - UNICODE_WIDTH=32
-  - secure: t8yF3j5efBXkOv92QjuFDerkVLMEMdgEcdKYwNYY3WBtqNBPK75FyKT56RLLxT96X/1u0QWlAdCPXb/qmhxRUV7nCJUk/bWamttRho09giHiKTB9IxNTqhY+PyQ5EH8BDOzz91cGcBy0ktPgBPdC25gJ2jC/8ffnmZOmC+yZeiBvBxftOqhwXAVFMoKf/Fqlk4cyMH1IUO6fJ3/rccsqLXBIm5aGZYt1yvkfpJcDJLo2wtiJajEvEOd/VIUX1Op0oLNQq2h1H+xODZLurturjPyX3v6i7A+lCmDnf77UpqAOZQaKI9G0odjw5EnN/psGdAmODVsjk21L/zmbav60AV4awl5YTDyAYPjlYEXVIJVrdWHRbtPhLsaWVMqFfZGcBTw2jN66ujC6NRoPiE+qHCIOWjk7KvP+l6e+sdwXm/doF++sFCtDJLmJCn9FoE31r2mQ9Uqq9NRqBWIzRBHJn8DvztvTmtGwfnhNmJ35WbW/qkLsQ71kTiDrD7adCms4biSVMlA6n5ccTrKj9pPnA07Siab6k91RgJjYrOFe6kOGz7cHF5RL99CkqJ747eC2wjQ2QnBL344cvjmBj7kPatfELBJRUOmNKU8TlXLBqYRu8Qpb9/d3aUuTXkNgSnvJ/kk01usm3k/uQS62OZwiLU909xqeisF1b9G3HWBdmMc=
+  - secure: hoJUfS4h8dnt/vctif96zLLIW2D76gaL2wLjqi2QCRFq18W/+7TNz+cfpkGKpYBstQ2McAJ7S5N+zNvWmCSa4QhzDHN5s3SHxd12/yFfJ7xntPFltGJR0DDFEi3N6DKw/Id6NDPIgTr9mhaxtnbwo0C6qSetXTq7N1F8XBQbLBUuzos+EV5/2ZTp8p4QEWXNlZZwLKMR3I26flmHx+YM/LZokcAwjqvl1F02kBuHsXKq8zH8zclz8LqEukGPP5vhmUAbrcNNC2Ht/E9BDJ2wzNSZ1WP8uuI1CPMrwl1GJZ/SYH3oajLwMvOtz3DtTHgt7wC8ZG8r/uZg+lUGxAIEcind9UJc5RtJxKmonPN3bwppDrdhR0W6/0RkmVlAulPL/EWIlSzX6+LjhKXJzk4G2nUApaWFpx05vg85JPGVNpsNnpCaZyMI+EuLk5rUXeRSOmJAYRFd2527acdvUZuIQYT6UG4vs6DHvb4x/8Co4cPO7XFyIpWoPebFuIO7sQZj8tXaXATnC+MlG77TlS0iFUUIum9fVDuPue6W3Y/ZFtNcRAvR/BZJ05dZI7nrp4MMZgo0SV1ldvZUAS446FiGm+EgI5tSKXLvp00Y3J53X8Sz+ZKbw5bJAN8gVejIM7o4GP6AD/EIlTfIL6ESV+B0ax7S6ZoAWKd6dmN7S1+42Z0=
 language: python
 python: 3.5
 sudo: required
@@ -75,5 +75,5 @@ script:
   - echo "[testpypi]"                                  >> ~/.pypirc
   - echo "repository:https://testpypi.python.org/pypi" >> ~/.pypirc
   - echo "username:pyodps"                             >> ~/.pypirc
-  - echo "password:PyODPSMars@015"                     >> ~/.pypirc
+  - echo password:secure:hoJUfS4h8dnt/vctif96zLLIW2D76gaL2wLjqi2QCRFq18W/+7TNz+cfpkGKpYBstQ2McAJ7S5N+zNvWmCSa4QhzDHN5s3SHxd12/yFfJ7xntPFltGJR0DDFEi3N6DKw/Id6NDPIgTr9mhaxtnbwo0C6qSetXTq7N1F8XBQbLBUuzos+EV5/2ZTp8p4QEWXNlZZwLKMR3I26flmHx+YM/LZokcAwjqvl1F02kBuHsXKq8zH8zclz8LqEukGPP5vhmUAbrcNNC2Ht/E9BDJ2wzNSZ1WP8uuI1CPMrwl1GJZ/SYH3oajLwMvOtz3DtTHgt7wC8ZG8r/uZg+lUGxAIEcind9UJc5RtJxKmonPN3bwppDrdhR0W6/0RkmVlAulPL/EWIlSzX6+LjhKXJzk4G2nUApaWFpx05vg85JPGVNpsNnpCaZyMI+EuLk5rUXeRSOmJAYRFd2527acdvUZuIQYT6UG4vs6DHvb4x/8Co4cPO7XFyIpWoPebFuIO7sQZj8tXaXATnC+MlG77TlS0iFUUIum9fVDuPue6W3Y/ZFtNcRAvR/BZJ05dZI7nrp4MMZgo0SV1ldvZUAS446FiGm+EgI5tSKXLvp00Y3J53X8Sz+ZKbw5bJAN8gVejIM7o4GP6AD/EIlTfIL6ESV+B0ax7S6ZoAWKd6dmN7S1+42Z0=  >> ~/.pypirc
   - twine upload -r testpypi --skip-existing wheelhouse/*.whl
