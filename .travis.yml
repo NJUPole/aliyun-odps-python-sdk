@@ -1,3 +1,7 @@
+env:
+  global:
+  - REPO_NAME=aliyun-odps-python-sdk
+  - secure: Ugp4WH99iOMKE7n79frD33jZzlr+C0djnSNl2igiqPVlEdJxoSHtLV3n8wjp60xAPrdt64av0k0KuINOwN8lShdpDSamsxh890sMW6bfrY2u8+wCxG0cz6jIB3svrw/vZzZRChPaY9TE8E8kNHpRL8Wh3Ro3BY71Y9gfVOyx+x8Olxz7LV64tplxVTK72kjMZNNLQl6rYXRLlFZlKOP7iSG8EKcv2jreVv7voQ1D9AYGz+539MzcPIw+Qbp9jD6+pekUjSHknJrMX12163VJnKXD4AskZNIsH0W6EkTGBXM9d8hg2N8V2QhEeK4pQjG2st6NDX6zKW/0zz/q2S51g3XWDrflyS/aBUCZb0zfuy5xuqZSccXFmBr7VmEtN7GP1zRU0NC0N6Th5cWt+VzvZ3ssvK5hmwV6B9m+eByrLFuBvgAN6eLXybe6b3xMVz8FgC5Sar9hfFgUrhLG7Z/rUXmd2dYAQcTj4yFbw9+/KHMfTcnrQNcoOtlyrR7S06NIR5+pPUenpXD9eIL8eltMGDDElBrjVLC48H4EjHlXwonAzwpNOTy3Rb9cnV6Zo7mTsQUqLqEKGaUDAXUGZ2ZSI2MQ+slPTAP7Z4ejgJPaa4CHdhUXbBy+LwT0bcTWhRtNUs7QTGPDsZYWtpTDYdnLV5xdbNk+LwRIZyWX8eCAAQA=
 
 notifications:
   email: false
@@ -39,3 +43,12 @@ script:
   - export PYVER=$PYVER
   - docker run --rm -e "PYVER=$PYVER" -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/linux-wheel.sh
   - ls wheelhouse/
+  
+after_success:
+  - echo "[distutils]"                                  > ~/.pypirc
+  - echo "index-servers ="                             >> ~/.pypirc
+  - echo "    testpypi"                                >> ~/.pypirc
+  - echo "[testpypi]"                                  >> ~/.pypirc
+  - echo "repository=https://testpypi.python.org/pypi" >> ~/.pypirc
+  - echo "username=pyodps"                             >> ~/.pypirc
+  - echo "password=$PSD"                               >> ~/.pypirc
