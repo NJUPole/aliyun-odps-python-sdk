@@ -1,6 +1,6 @@
 env:
   global:
-  - REPO_DIR=aliyun-odps-python-sdk
+  - REPO_DIR=.
   - BUILD_COMMIT=v0.7.6
   - PLAT=x86_64
   - BUILD_DEP="cython"
@@ -78,4 +78,4 @@ script:
   - echo "repository:https://testpypi.python.org/pypi" >> ~/.pypirc
   - echo "username:pyodps"                             >> ~/.pypirc
   - echo "password:PyODPSMars@015"                     >> ~/.pypirc
-  - twine upload -r testpypi *.whl
+  - twine upload -r testpypi --skip-existing *.whl
