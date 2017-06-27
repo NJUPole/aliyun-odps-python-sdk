@@ -1,0 +1,83 @@
+env:
+  global:
+  - REPO_NAME=NJUPole/aliyun-odps-python-sdk
+  - REPO_DIR=.
+  - BUILD_COMMIT=v0.7.6
+  - PLAT=x86_64
+  - BUILD_DEP="cython"
+  - UNICODE_WIDTH=32
+  - secure: Ugp4WH99iOMKE7n79frD33jZzlr+C0djnSNl2igiqPVlEdJxoSHtLV3n8wjp60xAPrdt64av0k0KuINOwN8lShdpDSamsxh890sMW6bfrY2u8+wCxG0cz6jIB3svrw/vZzZRChPaY9TE8E8kNHpRL8Wh3Ro3BY71Y9gfVOyx+x8Olxz7LV64tplxVTK72kjMZNNLQl6rYXRLlFZlKOP7iSG8EKcv2jreVv7voQ1D9AYGz+539MzcPIw+Qbp9jD6+pekUjSHknJrMX12163VJnKXD4AskZNIsH0W6EkTGBXM9d8hg2N8V2QhEeK4pQjG2st6NDX6zKW/0zz/q2S51g3XWDrflyS/aBUCZb0zfuy5xuqZSccXFmBr7VmEtN7GP1zRU0NC0N6Th5cWt+VzvZ3ssvK5hmwV6B9m+eByrLFuBvgAN6eLXybe6b3xMVz8FgC5Sar9hfFgUrhLG7Z/rUXmd2dYAQcTj4yFbw9+/KHMfTcnrQNcoOtlyrR7S06NIR5+pPUenpXD9eIL8eltMGDDElBrjVLC48H4EjHlXwonAzwpNOTy3Rb9cnV6Zo7mTsQUqLqEKGaUDAXUGZ2ZSI2MQ+slPTAP7Z4ejgJPaa4CHdhUXbBy+LwT0bcTWhRtNUs7QTGPDsZYWtpTDYdnLV5xdbNk+LwRIZyWX8eCAAQA=
+language: python
+python: 3.5
+sudo: required
+dist: trusty
+services: docker
+matrix:
+  exclude:
+  - python: 3.5
+  include:
+  - os: linux
+    env: MB_PYTHON_VERSION=2.7
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - UNICODE_WIDTH=16
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - PLAT=i686
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - PLAT=i686
+    - UNICODE_WIDTH=16
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.5
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.5
+    - PLAT=i686
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.6
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.6
+    - PLAT=i686
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=2.7
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=3.5
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=3.6
+before_install:
+  - ls
+  - BUILD_DEPENDS="$BUILD_DEP"
+  - source multibuild/common_utils.sh
+  - source multibuild/travis_steps.sh
+  - before_install
+install:
+  - build_wheel $REPO_DIR $PLAT
+script:
+  - echo "$TRAVIS_TAG"
+  - echo "$TRAVIS_BRANCH"
+  - ls
+after_success:
+  - pip install twine
+  - echo "[distutils]"                                  > ~/.pypirc
+  - echo "index-servers ="                             >> ~/.pypirc
+  - echo "    testpypi"                                >> ~/.pypirc
+  - echo "[testpypi]"                                  >> ~/.pypirc
+  - echo "repository=https://testpypi.python.org/pypi" >> ~/.pypirc
+  - echo "username=pyodps"                             >> ~/.pypirc
+  - echo "password=$PSD"                               >> ~/.pypirc
+  - twine upload -r testpypi --skip-existing wheelhouse/*.whl
+
+
