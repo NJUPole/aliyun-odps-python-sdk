@@ -1,5 +1,6 @@
 env:
   global:
+  - REPO_NAME=aliyun-odps-python-sdk
   - REPO_DIR=.
   - BUILD_COMMIT=v0.7.6
   - PLAT=x86_64
@@ -68,8 +69,6 @@ script:
   #- test
   - ls
   - pip install twine
-  - cd aliyun-odps-python-sdk
-  - cp ../wheelhouse/*.whl .
   - echo "[distutils]"                                  > ~/.pypirc
   - echo "index-servers ="                             >> ~/.pypirc
   - echo "    testpypi"                                >> ~/.pypirc
@@ -77,4 +76,4 @@ script:
   - echo "repository:https://testpypi.python.org/pypi" >> ~/.pypirc
   - echo "username:pyodps"                             >> ~/.pypirc
   - echo "password:PyODPSMars@015"                     >> ~/.pypirc
-  - twine upload -r testpypi --skip-existing *.whl
+  - twine upload -r testpypi --skip-existing wheelhouse/*.whl

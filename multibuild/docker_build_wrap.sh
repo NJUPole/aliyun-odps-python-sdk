@@ -16,17 +16,19 @@ WHEEL_SDIR=${WHEEL_SDIR:-wheelhouse}
 # Always pull in common and library builder utils
 MULTIBUILD_DIR=$(dirname "${BASH_SOURCE[0]}")
 # These routines also source common_utils.sh
+echo "OK1"
 source $MULTIBUILD_DIR/manylinux_utils.sh
+echo "OK2"
 source $MULTIBUILD_DIR/library_builders.sh
-
+echo "OK3"
 # Set PATH for chosen Python, Unicode width
 export PATH="$(cpython_path $PYTHON_VERSION $UNICODE_WIDTH)/bin:$PATH"
 
 # Change into root directory of repo
-cd /io
+cd /io/$REPO_NAME
 
 # Configuration for this package, possibly overriding `build_wheel` defined in
 # `common_utils.sh` via `manylinux_utils.sh`.
 source config.sh
-
+echo "OK4"
 $BUILD_COMMANDS
