@@ -90,7 +90,8 @@ function build_multilinux {
         -e REPO_DIR="$repo_dir" \
         -e PLAT="$PLAT" \
         -v $PWD:/io \
-        sudo $docker_image /io/$MULTIBUILD_DIR/docker_build_wrap.sh
+		--privileged
+        $docker_image /io/$MULTIBUILD_DIR/docker_build_wrap.sh
 }
 
 function install_run {
