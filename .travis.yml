@@ -44,12 +44,16 @@ install:
   - ls
 
 script:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]
+  - then
+  - travis/osx-wheel.sh
+  - else 
   - docker pull $DOCKER_IMAGE
   - export PYVER=$PYVER
   - sudo chmod 777 travis/linux-wheel.sh
   - sudo chmod 777 travis/osx-wheel.sh
-  - ls
   - docker run --rm -e "PYVER=$PYVER" -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/linux-wheel.sh
+  - fi
   - ls dist
   
 after_success:
