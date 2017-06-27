@@ -39,6 +39,15 @@ matrix:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686 PYVER=cp36-cp36m
            PRE_CMD=linux32
+    - os: osx
+      language: generic
+      env: PYTHON=3.5
+    - os: osx
+      language: generic
+      env: PYTHON=3.6
+    - os: osx
+      language: generic
+      env: PYTHON=3.6
 
 install:
   - travis/${TRAVIS_OS_NAME}"-install.sh"
