@@ -77,6 +77,9 @@ artifacts:
 
 on_success:
   #- add for test tag
+  - echo %APPVEYOR_REPO_TAG%
+  - echo %APPVEYOR_REPO_TAG_NAME%
+  - echo %APPVEYOR_REPO_BRANCH%
   - ps: If ($env:APPVEYOR_REPO_TAG -eq "true" -And $env:APPVEYOR_REPO_BRANCH -eq "master") { Invoke-Expression "twine upload -r testpypi --skip-existing dist/*" 2>$null } Else { write-output "Not on a tag on master, won't deploy to pypi"}
   #- "python setup.py register -r https://testpypi.python.org/pypi"
   #- "twine upload -r testpypi dist/*"
