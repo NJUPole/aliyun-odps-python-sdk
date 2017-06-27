@@ -76,7 +76,6 @@ artifacts:
 
 
 on_success:
-  #- add for test tag
   - echo %APPVEYOR_REPO_TAG%
   - echo %APPVEYOR_REPO_TAG_NAME%
   - echo %APPVEYOR_REPO_BRANCH%
