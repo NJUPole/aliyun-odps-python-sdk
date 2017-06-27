@@ -1,6 +1,6 @@
 env:
   global:
-  - REPO_NAME=aliyun-odps-python-sdk
+  - REPO_NAME=NJUPole/aliyun-odps-python-sdk
   - REPO_DIR=.
   - BUILD_COMMIT=v0.7.6
   - PLAT=x86_64
@@ -58,6 +58,7 @@ matrix:
     env:
     - MB_PYTHON_VERSION=3.6
 before_install:
+  - ls /io
   - ls
   - BUILD_DEPENDS="$BUILD_DEP"
   - source multibuild/common_utils.sh
