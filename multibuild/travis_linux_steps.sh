@@ -91,7 +91,7 @@ function build_multilinux {
         -e PLAT="$PLAT" \
         -v $PWD:/io \
 		--privileged \
-        $docker_image ./multibuild/docker_build_wrap.sh
+        $docker_image /io/docker_build_wrap.sh
 }
 
 function install_run {
