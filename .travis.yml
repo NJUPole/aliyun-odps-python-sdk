@@ -1,0 +1,79 @@
+env:
+  global:
+  - REPO_DIR=aliyun-odps-python-sdk
+  - BUILD_COMMIT=v0.7.6
+  - PLAT=x86_64
+  - BUILD_DEP="cython"
+  - UNICODE_WIDTH=32
+  - secure: t8yF3j5efBXkOv92QjuFDerkVLMEMdgEcdKYwNYY3WBtqNBPK75FyKT56RLLxT96X/1u0QWlAdCPXb/qmhxRUV7nCJUk/bWamttRho09giHiKTB9IxNTqhY+PyQ5EH8BDOzz91cGcBy0ktPgBPdC25gJ2jC/8ffnmZOmC+yZeiBvBxftOqhwXAVFMoKf/Fqlk4cyMH1IUO6fJ3/rccsqLXBIm5aGZYt1yvkfpJcDJLo2wtiJajEvEOd/VIUX1Op0oLNQq2h1H+xODZLurturjPyX3v6i7A+lCmDnf77UpqAOZQaKI9G0odjw5EnN/psGdAmODVsjk21L/zmbav60AV4awl5YTDyAYPjlYEXVIJVrdWHRbtPhLsaWVMqFfZGcBTw2jN66ujC6NRoPiE+qHCIOWjk7KvP+l6e+sdwXm/doF++sFCtDJLmJCn9FoE31r2mQ9Uqq9NRqBWIzRBHJn8DvztvTmtGwfnhNmJ35WbW/qkLsQ71kTiDrD7adCms4biSVMlA6n5ccTrKj9pPnA07Siab6k91RgJjYrOFe6kOGz7cHF5RL99CkqJ747eC2wjQ2QnBL344cvjmBj7kPatfELBJRUOmNKU8TlXLBqYRu8Qpb9/d3aUuTXkNgSnvJ/kk01usm3k/uQS62OZwiLU909xqeisF1b9G3HWBdmMc=
+language: python
+python: 3.5
+sudo: required
+dist: trusty
+services: docker
+matrix:
+  exclude:
+  - python: 3.5
+  include:
+  - os: linux
+    env: MB_PYTHON_VERSION=2.7
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - UNICODE_WIDTH=16
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - PLAT=i686
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=2.7
+    - PLAT=i686
+    - UNICODE_WIDTH=16
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.5
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.5
+    - PLAT=i686
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.6
+  - os: linux
+    env:
+    - MB_PYTHON_VERSION=3.6
+    - PLAT=i686
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=2.7
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=3.5
+  - os: osx
+    language: generic
+    env:
+    - MB_PYTHON_VERSION=3.6
+before_install:
+  - BUILD_DEPENDS="$BUILD_DEP"
+  - source multibuild/common_utils.sh
+  - source multibuild/travis_steps.sh
+  - before_install
+install:
+  - clean_code $REPO_DIR
+  - build_wheel $REPO_DIR $PLAT
+script:
+  - ls wheelhouse/
+  - pip install twine
+  - cd aliyun-odps-python-sdk
+  - cp ../wheelhouse/*.whl .
+  - echo "[distutils]"                                  > ~/.pypirc
+  - echo "index-servers ="                             >> ~/.pypirc
+  - echo "    testpypi"                                >> ~/.pypirc
+  - echo "[testpypi]"                                  >> ~/.pypirc
+  - echo "repository:https://testpypi.python.org/pypi" >> ~/.pypirc
+  - echo "username:pyodps"                             >> ~/.pypirc
+  - echo "password:PyODPSMars@015"                     >> ~/.pypirc
+  - twine upload -r testpypi *.whl
