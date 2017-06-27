@@ -50,6 +50,9 @@ matrix:
       env: PYTHON=3.6
 
 install:
+  - sudo chmod 777 travis/linux-wheel.sh
+  - sudo chmod 777 travis/osx-install.sh
+  - sudo chmod 777 travis/linux-install.sh
   - travis/${TRAVIS_OS_NAME}"-install.sh"
 
 script:
