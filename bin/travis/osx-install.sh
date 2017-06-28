@@ -20,7 +20,7 @@ mkdir dist
 cp *.whl dist/
 pip install delocate
 delocate-wheel dist/*.whl
-delocate-addplat --rm-orig -x 10_9 dist/*.whl
+delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
 ls dist
 cd dist
 python -V

@@ -61,5 +61,5 @@ after_success:
   - echo "repository=https://testpypi.python.org/pypi" >> ~/.pypirc
   - echo "username=pyodps"                             >> ~/.pypirc
   - echo "password=$PSD"                               >> ~/.pypirc
-  #- pip install twine
-  #- twine upload -r testpypi --skip-existing dist/*.whl
+  - pip install twine
+  - twine upload -r testpypi --skip-existing dist/*.whl
