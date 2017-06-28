@@ -15,7 +15,11 @@ pip install --disable-pip-version-check --user --upgrade pip
 pip install cython
 pip install wheel
 # wheel
-python setup.py bdist_wheel
+#python setup.py bdist_wheel
+mkdir dist
+export CC=clang
+export CXX=clang++
+pip wheel -w /dist
 #repair_wheel
 pip install delocate
 echo repair wheel
