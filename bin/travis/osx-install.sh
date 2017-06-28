@@ -22,6 +22,9 @@ pip wheel --no-deps .
 #repair_wheel
 mkdir dist
 cp *.whl dist/
-pip install delocate
-delocate-wheel dist/*.whl
-delocate-addplat --rm-orig -x 10_9 dist/*.whl
+#pip install delocate
+#delocate-wheel dist/*.whl
+#delocate-addplat --rm-orig -x 10_9 dist/*.whl
+cd dist
+pip install odps*.whl
+python -c "from odps.tunnel.checksum_c import Checksum"
