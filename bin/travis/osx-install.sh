@@ -21,5 +21,5 @@ pip install wheel
 
 python setup.py bdist_wheel
 #repair_wheel
-#pip install delocate
+pip install delocate
 delocate-addplat --rm-orig -x 10_10 dist/*.whl
