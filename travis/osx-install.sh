@@ -12,6 +12,6 @@ pyenv install $PYTHON
 pyenv global $PYTHON
 python -V
 pip install --disable-pip-version-check --user --upgrade pip
-
-python setup.py build
+pip install cython
+pip install wheel
 python setup.py bdist_wheel
