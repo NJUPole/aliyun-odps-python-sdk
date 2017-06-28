@@ -18,8 +18,8 @@ pip install cython
 pip install wheel
 # wheel
 #python setup.py bdist_wheel
-
-python setup.py bdist_wheel
+pip wheel -w $pwd/dist --no-deps .
 #repair_wheel
 pip install delocate
-delocate-addplat --rm-orig -x 10_10 dist/*.whl
+delocate-wheel dist/*.whl
+delocate-addplat --rm-orig -x 10_9 dist/*.whl
