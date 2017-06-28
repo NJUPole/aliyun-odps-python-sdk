@@ -19,7 +19,7 @@ pip install wheel
 mkdir dist
 export CC=clang
 export CXX=clang++
-pip wheel -w /dist
+pip wheel -w /dist .
 #repair_wheel
 pip install delocate
 echo repair wheel
