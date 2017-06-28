@@ -16,12 +16,9 @@ pip install cython
 pip install wheel
 # wheel
 #python setup.py bdist_wheel
-mkdir dist
 export CC=clang
 export CXX=clang++
 pip wheel -w /dist .
 #repair_wheel
 pip install delocate
-echo repair wheel
-delocate-wheel dist/*.whl
 delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
