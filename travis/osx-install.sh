@@ -1,4 +1,3 @@
-python -V
 brew update
 # Per the `pyenv homebrew recommendations <https://github.com/yyuu/pyenv/wiki#suggested-build-environment>`_.
 brew install openssl readline
@@ -12,3 +11,7 @@ eval "$(pyenv init -)"
 pyenv install $PYTHON
 pyenv global $PYTHON
 python -V
+pip install --disable-pip-version-check --user --upgrade pip
+
+python setup.py build
+python setup.py bdist_wheel
