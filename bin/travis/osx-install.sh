@@ -20,5 +20,5 @@ export CC=clang
 export CXX=clang++
 pip wheel -w /dist .
 #repair_wheel
-pip install delocate
-delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
+#pip install delocate
+#delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
