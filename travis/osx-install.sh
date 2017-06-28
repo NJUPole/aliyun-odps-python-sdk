@@ -14,4 +14,11 @@ python -V
 pip install --disable-pip-version-check --user --upgrade pip
 pip install cython
 pip install wheel
+# wheel
 python setup.py bdist_wheel
+#repair_wheel
+pip install delocate
+delocate-listdep dist/*.whl
+echo repair wheel
+delocate-wheel dist/*.whl
+delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
