@@ -28,23 +28,20 @@ matrix:
       services:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686 PYVER=cp27-cp27m
-           PRE_CMD=linux32
     - sudo: required
       services:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686 PYVER=cp35-cp35m
-           PRE_CMD=linux32
     - sudo: required
       services:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686 PYVER=cp36-cp36m
-           PRE_CMD=linux32
+    - os: osx
+      language: generic
+      env: PYTHON=2.7
     - os: osx
       language: generic
       env: PYTHON=3.5
-    - os: osx
-      language: generic
-      env: PYTHON=3.6
     - os: osx
       language: generic
       env: PYTHON=3.6
