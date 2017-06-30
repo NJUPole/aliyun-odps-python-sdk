@@ -53,7 +53,7 @@ install:
 
 script:
   - ls dist
-  
+
 after_success:
   - echo "[distutils]"                                  > ~/.pypirc
   - echo "index-servers ="                             >> ~/.pypirc
@@ -65,7 +65,6 @@ after_success:
   - pip install twine
   # upload only commit with tag
   - if [ "$TRAVIS_TAG" ]; then
-    twine upload -r pypi --skip-existing dist/*.whl
+    twine upload -r pypi --skip-existing dist/*.whl;
+    else echo "Not on a tag, won't deploy to pypi";
     fi
-
-
