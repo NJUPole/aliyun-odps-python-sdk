@@ -11,6 +11,8 @@ eval "$(pyenv init -)"
 
 
 if [${PYTHON} -le "3.0"]; then
+    CFLAGS="-I$(brew --prefix openssl)/include"
+    LDFLAGS="-L$(brew --prefix openssl)/lib"
 	curl -O https://bootstrap.pypa.io/get-pip.py
 	python get-pip.py --user
 else
