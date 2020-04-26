@@ -2,7 +2,7 @@ set -e
 
 brew update
 # Per the `pyenv homebrew recommendations <https://github.com/yyuu/pyenv/wiki#suggested-build-environment>`_.
-brew install openssl readline
+brew upgrade openssl@1.1 readline
 CFLAGS="-I/opt/local/include/"
 LDFLAGS="-L/opt/local/lib/"
 # See https://docs.travis-ci.com/user/osx-ci-environment/#A-note-on-upgrading-packages.
@@ -12,13 +12,9 @@ PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 
-if [${PYTHON} -le "3.0"]; then
-	curl -O https://bootstrap.pypa.io/get-pip.py
-	python get-pip.py --user
-else
-	pyenv install $PYTHON
-	pyenv global $PYTHON
-fi
+pyenv install $PYTHON
+pyenv global $PYTHON
+
 
 #check python version
 python -V
