@@ -76,7 +76,12 @@ class ODPS(object):
                  endpoint=None, **kw):
         """
         """
+        self._init(access_id=access_id, secret_access_key=secret_access_key, project=project,
+                   endpoint=endpoint, **kw)
+        clean_stored_objects(self)
 
+    def _init(self, access_id=None, secret_access_key=None, project=None,
+              endpoint=None, **kw):
         account = kw.pop('account', None)
         self.app_account = kw.pop('app_account', None)
 
@@ -111,7 +116,30 @@ class ODPS(object):
             self._seahawks_url = kw.pop('seahawks_url', None)
             options.seahawks_url = self._seahawks_url
 
-        clean_stored_objects(self)
+    def __getstate__(self):
+        params = dict(
+            project=self.project,
+            endpoint=self.endpoint,
+            tunnel_endpoint=self._tunnel_endpoint,
+            logview_host=self._logview_host,
+            seahawks_url=self._seahawks_url
+        )
+        if isinstance(self.account, accounts.AliyunAccount):
+            params.update(dict(access_id=self.account.access_id,
+                               secret_access_key=self.account.secret_access_key))
+        return params
+
+    def __setstate__(self, state):
+        try:
+            bearer_token = os.environ['ODPS_BEARER_TOKEN']
+            state['project'] = os.environ['ODPS_PROJECT_NAME']
+            state['endpoint'] = os.environ['ODPS_ENDPOINT']
+            account = accounts.BearerTokenAccount(bearer_token)
+            state.pop('access_id', None)
+            state.pop('secret_access_key', None)
+            self._init(None, None, account=account, **state)
+        except KeyError:
+            self._init(**state)
 
     @classmethod
     def _from_account(cls, account, project, endpoint=DEFAULT_ENDPOINT,
@@ -1755,6 +1783,17 @@ class ODPS(object):
         else:
             return None
 
+    @classmethod
+    def from_environments(cls):
+        try:
+            bearer_token = os.environ['ODPS_BEARER_TOKEN']
+            project = os.environ['ODPS_PROJECT_NAME']
+            endpoint = os.environ['ODPS_ENDPOINT']
+            account = accounts.BearerTokenAccount(bearer_token)
+            return cls(None, None, account=account, project=project, endpoint=endpoint)
+        except KeyError:
+            return None
+
 
 def _get_odps_from_model(self):
     client = self._client
@@ -1776,11 +1815,14 @@ except ImportError:
 
 try:
     from .mars_extension import create_mars_cluster, persist_mars_dataframe, \
-        to_mars_dataframe, persist_tensor_via_oss
+        to_mars_dataframe, persist_tensor_via_oss, run_script, \
+        run_script_in_mars, run_mars_job
     setattr(ODPS, 'create_mars_cluster', create_mars_cluster)
     setattr(ODPS, 'persist_mars_dataframe', persist_mars_dataframe)
     setattr(ODPS, 'to_mars_dataframe', to_mars_dataframe)
     setattr(ODPS, 'persist_tensor_via_oss', persist_tensor_via_oss)
+    setattr(ODPS, 'run_script_in_mars', run_script_in_mars)
+    setattr(ODPS, 'run_mars_job', run_mars_job)
 except ImportError:
     pass
 

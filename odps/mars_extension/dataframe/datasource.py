@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import logging
 
-from mars.config import options
+from mars.utils import parse_readable_size
 from mars.dataframe.operands import DataFrameOperandMixin, DataFrameOperand, ObjectType
 from mars.serialize import StringField, Int64Field, SeriesField, DictField, BoolField
 from mars.dataframe.utils import parse_index
@@ -26,6 +27,8 @@ from ...df.backends.pd.types import df_type_to_np_type
 from ...utils import to_str
 
 logger = logging.getLogger('mars.worker')
+
+CHUNK_LIMIT = 16 * 1024 ** 2
 
 
 class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
@@ -43,6 +46,10 @@ class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
                                                  _partition_spec=partition_spec,
                                                  _dtypes=dtypes, _sparse=sparse, _add_offset=add_offset,
                                                  _object_type=ObjectType.dataframe, **kw)
+
+    @property
+    def retryable(self):
+        return False
 
     @property
     def odps_params(self):
@@ -64,7 +71,7 @@ class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
     def add_offset(self):
         return self._add_offset
 
-    def __call__(self, shape, chunk_store_limit=None):
+    def __call__(self, shape, chunk_bytes=None):
         import numpy as np
         import pandas as pd
 
@@ -74,7 +81,7 @@ class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
             index_value = parse_index(pd.RangeIndex(shape[0]))
         columns_value = parse_index(self.dtypes.index, store_data=True)
         return self.new_dataframe(None, shape, dtypes=self.dtypes, index_value=index_value,
-                                  columns_value=columns_value, chunk_store_limit=chunk_store_limit)
+                                  columns_value=columns_value, chunk_bytes=chunk_bytes)
 
     @classmethod
     def tile(cls, op):
@@ -86,11 +93,15 @@ class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
 
         bearer_token = context().get_bearer_token()
         account = BearerTokenAccount(bearer_token)
-        o = ODPS(None, None, account=account, **op.odps_params)
+        project = os.environ.get('ODPS_PROJECT_NAME', None)
+        odps_params = op.odps_params.copy()
+        if project:
+            odps_params['project'] = project
+        o = ODPS(None, None, account=account, **odps_params)
         cupid_session = CupidSession(o)
 
         df = op.outputs[0]
-        split_size = df.extra_params.chunk_store_limit or options.tensor.chunk_store_limit
+        split_size = df.extra_params.chunk_bytes or CHUNK_LIMIT
 
         data_src = o.get_table(op.table_name)
         if op.partition is not None:
@@ -119,9 +130,9 @@ class DataFrameReadTable(DataFrameOperand, DataFrameOperandMixin):
                                                                   'dtypes': op.dtypes,
                                                                   'index_value': index_value,
                                                                   'columns_value': columns_value,
-                                                                  'index': (idx,)},
+                                                                  'index': (idx, 0)},
                                                                  {'shape': (1,),
-                                                                  'index': (idx,)}
+                                                                  'index': (idx, 0)}
                                                              ])
             out_chunks.append(out_chunk)
             out_count_chunks.append(out_count_chunk)
@@ -252,10 +263,12 @@ class DataFrameReadTableWithOffset(DataFrameOperand, DataFrameOperandMixin):
         ctx[op.outputs[0].key] = new_df
 
 
-def read_odps_table(table, shape, partition=None, sparse=False, chunk_store_limit=None,
+def read_odps_table(table, shape, partition=None, sparse=False, chunk_bytes=None,
                     odps_params=None, add_offset=True):
     import pandas as pd
 
+    if chunk_bytes is not None:
+        chunk_bytes = int(parse_readable_size(chunk_bytes)[0])
     table_name = '%s.%s' % (table.project.name, table.name)
     table_columns = table.schema.names
     table_types = table.schema.types
@@ -264,4 +277,4 @@ def read_odps_table(table, shape, partition=None, sparse=False, chunk_store_limi
 
     op = DataFrameReadTable(odps_params=odps_params, table_name=table_name, partition_spec=partition,
                             dtypes=dtypes, sparse=sparse, add_offset=add_offset)
-    return op(shape, chunk_store_limit=chunk_store_limit)
+    return op(shape, chunk_bytes=chunk_bytes)
